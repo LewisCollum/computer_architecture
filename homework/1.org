@@ -1,5 +1,7 @@
 #+latex_header: \usepackage{homework_template}
-Due: September 18, 2019
+#+title: EE466 Fall 2019 HW \jobname
+#+author: Lewis Collum (0621539) EE/CE
+#+date: Due: September 18, 2019
 
 * COMMENT
   Show steps for each problem except 1.2
