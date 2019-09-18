@@ -193,7 +193,9 @@ for name, processor in processors.items():
 :   Performance = 4.0 / second
 : 
 
+#+BEGIN_EXPORT latex
 \(\boxed{\text{P1 has a higher clock rate and a lower performance.}}\)
+#+END_EXPORT
 
 * 1.13
 #+BEGIN_SRC python :results output :exports both
