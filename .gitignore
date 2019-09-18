@@ -1,0 +1,8 @@
+\#*
+*~
+ltximg/
+*.html
+*.tex
+_minted*
+*scrap*
+__pycache__/
