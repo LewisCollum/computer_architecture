@@ -3,21 +3,6 @@
 #+author: Lewis Collum (0621539) EE/CE
 #+date: Due: September 18, 2019
 
-* COMMENT
-  Show steps for each problem except 1.2
-** Problem 1.8.1
-   Assume dynamic power P=1/2 CV^2F
-** Problem 1.13
-   "Consider a computer running a program that requires 250 s, with 70 s
-   spent executing FP instructions, 85 s executed L/S instructions, and
-   40 s spent executing branch instructions."
-   
-   This part is missing information, because if you add 70 and 85 and 40,
-   you get 195 s. The total time is 250 s. The difference is 55 s,
-   basically that is the time you spend on executing INT
-   instructions. which the problem forgets to specify. Hope this
-   explanation helps.
-
 * 1.2
 | Letter | Matching Idea                      |
 |--------+------------------------------------|
@@ -147,9 +132,86 @@ for name, wafer in wafers.items():
 :   cost per die = 0.165
 : 
 * 1.11
-** 1
-** 2
-** 3
-** 4
+#+BEGIN_SRC python :results output :exports both
+instructions = 2.389e12
+executionTime = 750
+
+cycleTime = 0.333e-9
+cycleRate = 1/cycleTime
+
+instructionRate = instructions/executionTime
+cyclesPerInstruction = cycleRate/instructionRate
+print(f"1.11.1) CPI = {cyclesPerInstruction:.2}")
+
+referenceTime = 9650
+specRatio = referenceTime / executionTime
+print(f"1.11.2) SPECratio = {specRatio:.3}")
+
+print(f"1.11.3) CPU time = {(1+0.1)*instructions * cyclesPerInstruction / cycleRate} seconds")
+print(f"1.11.4) CPU time = {(1+0.1)*instructions * (1+0.5)*cyclesPerInstruction / cycleRate} seconds")
+#+END_SRC
+
+#+RESULTS:
+: 1.11.1) CPI = 0.94
+: 1.11.2) SPECratio = 12.9
+: 1.11.3) CPU time = 825.0 seconds
+: 1.11.4) CPU time = 1237.5 seconds
 * 1.12.1
+#+BEGIN_SRC python :results output :exports both
+from collections import namedtuple
+import pint
+unit = pint.UnitRegistry()
+unit.define('cycles=')
+unit.define('instructions=')
+
+Processor = namedtuple('Processor', ['cycleRate', 'cyclesPerInstruction', 'instructions'])
+processors = {
+    'P1': Processor(
+        cycleRate = 4e9 * unit.cycles/unit.seconds,
+        cyclesPerInstruction = 0.9 * unit.cycles/unit.instructions,
+        instructions = 5e9 * unit.instructions),
+    'P2': Processor(
+        cycleRate = 3e9 * unit.cycles/unit.seconds,
+        cyclesPerInstruction = 0.75 * unit.cycles/unit.instructions,
+        instructions = 1e9 * unit.instructions)
+}
+
+for name, processor in processors.items():
+    cpuTime = processor.instructions * processor.cyclesPerInstruction / processor.cycleRate
+    print((f"{name}: \n"
+           f"  Clock Rate = {processor.cycleRate:.1E}\n"
+           f"  Performance = {1/cpuTime:.2}\n"))
+#+END_SRC
+
+#+RESULTS:
+: P1: 
+:   Clock Rate = 4.0E+09 cycles / second
+:   Performance = 0.89 / second
+: 
+: P2: 
+:   Clock Rate = 3.0E+09 cycles / second
+:   Performance = 4.0 / second
+: 
+
+\(\boxed{\text{P1 has a higher clock rate and a lower performance.}}\)
+
 * 1.13
+#+BEGIN_SRC python :results output :exports both
+fpTime = 70
+lsTime = 85
+branchTime = 40
+intTime = 55
+programTime = fpTime + lsTime + branchTime + intTime
+
+print(f"1.13.1) {fpTime - (1-0.2)*fpTime} seconds reduced for total time")
+print(f"1.13.2) {intTime - ((1-0.2)*programTime-fpTime-lsTime-branchTime)} seconds reduced for INT")
+print(f"1.13.3) {((1-0.2)*programTime-fpTime-lsTime-intTime)} seconds left for branching")
+#+END_SRC
+
+#+RESULTS:
+: 1.13.1) 14.0 seconds reduced for total time
+: 1.13.2) 50.0 seconds reduced for INT
+: 1.13.3) -10.0 seconds left for branching
+
+Can the total time can be reduced by 20% by reducing only the time for
+branch instructions? *No, there would be negative time left for branching (as shown above).*
