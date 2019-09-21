@@ -143,7 +143,7 @@ return fileName
 
 #+attr_latex: :width \linewidth/2
 #+RESULTS:
-[[file:1_1.9.1.png]]
+[[file:figure/1_1.9.1.png]]
   
 ** COMMENT Changes:
    please fine the total execution time for this program on 1,2,4,8,
