@@ -25,7 +25,7 @@ compilers = {
 
 instructionRateRatio = compilers['A'].instructionRate / compilers['B'].instructionRate
 print((f"Compiler A's processor has a clock that is {instructionRateRatio:.2}"
-       f" faster than Compiler B's processor"))
+       f" times faster than Compiler B's processor"))
 #+END_SRC
 
 #+RESULTS:
@@ -145,41 +145,183 @@ return fileName
 #+RESULTS:
 [[file:figure/1_1.9.1.png]]
   
-** COMMENT Changes:
-   please fine the total execution time for this program on 1,2,4,8,
-   16, 32,64,128,256 processorsand put your results in a table
-   format. And show the relative speedup of the results relative to
-   the single processor resultand put your result in a table format as
-   well. Please using Excel to draw two graphs:the first graph is the
-   relationship between the number of processors (X axis) and the
-   total execution time (Y axis). The second graph is the number of
-   processors (X axis) and the speedup (Y axis). 
 * 1.14.1
-** COMMENT Changes:
-   Please calculate the total execution time of the program if the CPI
-   of FP instructions is 1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2,
-   0.1, 0.0, respectively.Please also calculate the relative speedup
-   of the results relative to the case where CPI of FP instruction is
-   1.0. Please list your results in a table format. Please using Excel
-   to draw two graphs:the first graph is the relationship between the
-   CPI of FP instructions (X axis) and the total execution time (Y
-   axis). The second graph is the CPI of FP instructions (X axis) and
-   the speedup (Y axis). By how much must we improve the CPI of FP
-   instructions if we want the program to run two times faster?
+** Creating the Table
+#+BEGIN_SRC python :results output table :exports both
+from collections import namedtuple
+import numpy
+table = numpy.asarray([["FP CPI", "Execution Time (s)", "Relative Speedup (s)"]])
+
+Instructions = namedtuple('Instructions', ['FP', 'INT', 'LS', 'branch'])
+        
+class InstructionTimer:
+    def __init__(self, clockRate):
+        self.clockRate = clockRate
+
+    @classmethod
+    def fromClockRate(cls, clockRate):
+        return InstructionTimer(clockRate)
+
+    def executionTimeFromCpi(self, instructionCount: Instructions, cpi: Instructions) -> float:
+        return sum(numpy.multiply(instructionCount, cpi))/self.clockRate
+                
+instructions = Instructions(
+    FP = 50e6,
+    INT = 110e6,
+    LS = 80e6,
+    branch = 16e6)
+
+cpi = Instructions(
+    FP = numpy.round(numpy.arange(1, -0.1, -0.1), 1),
+    INT = 1,
+    LS = 4,
+    branch = 2)
+
+instructionTimer = InstructionTimer.fromClockRate(2e9)
+
+executionTime = numpy.round(instructionTimer.executionTimeFromCpi(instructions, cpi), 4)
+
+staticCpiExecutionTime = instructionTimer.executionTimeFromCpi(instructions, cpi = Instructions(1, 1, 4, 2))
+speedUp = numpy.round(staticCpiExecutionTime - executionTime, 4)
+
+values = numpy.transpose(numpy.asarray([
+    cpi.FP,
+    executionTime,
+    speedUp]))
+
+table = numpy.concatenate((table, values))
+print(table)
+#+END_SRC
+
+#+tblname: 1.14.1_table
+#+RESULTS:
+| FP CPI | Execution Time (s) | Relative Speedup (s) |
+|    1.0 |              0.256 |                  0.0 |
+|    0.9 |             0.2535 |               0.0025 |
+|    0.8 |              0.251 |                0.005 |
+|    0.7 |             0.2485 |               0.0075 |
+|    0.6 |              0.246 |                 0.01 |
+|    0.5 |             0.2435 |               0.0125 |
+|    0.4 |              0.241 |                0.015 |
+|    0.3 |             0.2385 |               0.0175 |
+|    0.2 |              0.236 |                 0.02 |
+|    0.1 |             0.2335 |               0.0225 |
+|    0.0 |              0.231 |                0.025 |
+
+** Plotting the Table
+#+BEGIN_SRC python :results file :exports both :var fileName="figure/1_1.14.1.png" :var table=1.14.1_table
+import matplotlib.pyplot as pyplot
+import numpy
+
+table = numpy.asarray(table)[1:, :].astype(numpy.float)
+cpi = table[:, 0]
+executionTime = table[:, 1]*100
+speedUp = table[:, 2]*100
+
+figure, axes = pyplot.subplots(2)
+axes[0].set_title('Execution Time vs. FP CPI', fontsize=10)
+axes[0].set_ylabel('Execution Time (ms)')
+axes[0].yaxis.set_ticks(numpy.arange(numpy.min(executionTime), numpy.max(executionTime), .25))
+axes[0].plot(cpi, executionTime)
+
+axes[1].set_title('Speed Up Relative to FP CPI of 1.0', fontsize=10) 
+axes[1].set_ylabel('Relative Speed Up (ms)')
+axes[1].plot(cpi, speedUp)
+axes[1].yaxis.set_ticks(numpy.arange(numpy.min(speedUp), numpy.max(speedUp), .25))
+
+for i in axes:
+    i.set_xlabel('FP CPI')
+    i.invert_xaxis()
+
+figure.tight_layout()
+figure.savefig(fileName)
+return fileName
+#+END_SRC
+
+#+attr_latex: :width \linewidth/2
+#+RESULTS:
+[[file:figure/1_1.14.1.png]]
+
+#+BEGIN_EXPORT latex
+\fbox{It is not possible to make the program run two times faster by improving the CPI of FP instructions. }
+#+END_EXPORT
 * This one is not from the textbook
-** COMMENT Problem:
-   [Wafer yield] Assume a 300mm diameter wafer has a cost of $400, and
-   has 0.020 defects/cm2.Assume die area of each processor is 20.7 by
-   10.5mm.
-   
-   (a) Calculate the yield?  
+#+BEGIN_SRC python :results output :exports both
+from collections import namedtuple
+import math
 
-   (b) Using the approximate formula, that Dies per wafer = Wafer area/
-   Die Area. How many dies can we get per wafer?  
+class Circle:
+    @classmethod
+    def areaFromDiameter(cls, diameter: float) -> float:
+        radius = diameter/2
+        return math.pi*radius**2 
 
-   (c) Calculate the cost per die from (b).
+    @classmethod
+    def circumferenceFromDiameter(cls, diameter: float) -> float:
+        return math.pi*diameter
 
-   (d)Using a more precise formula, that How many dies can we get per
-   wafer in this case?
 
-   (e)Calculate the cost per die from (d)
+class WaferResults:
+    def __init__(self, dieCount, costPerDie):
+        self.dieCount = dieCount
+        self.costPerDie = costPerDie
+
+
+class Wafer:
+    dieCountStrategy = None
+    
+    def __init__(self, diameter, cost, dieArea, defectRatio):
+        self.diameter = diameter
+        self.cost = cost
+        self.dieArea = dieArea
+        self.defectRatio = defectRatio
+        
+        self.area = Circle.areaFromDiameter(self.diameter)
+
+    @property
+    def goodDieYield(self):
+        return 1/(1+(self.defectRatio * self.dieArea/2))**2
+
+    def generateWaferResults(self):
+        dieCount = Wafer.dieCountStrategy(self.diameter, self.dieArea)
+        costPerDie = self.cost / (dieCount * self.goodDieYield)
+        return WaferResults(dieCount, costPerDie)
+
+    
+def simpleDieCountStrategy(waferDiameter: float, dieArea: float) -> float:
+    return Circle.areaFromDiameter(waferDiameter)/dieArea
+
+def accurateDieCountStrategy(waferDiameter: float, dieArea: float) -> float:
+    return simpleDieCountStrategy(waferDiameter, dieArea) - Circle.circumferenceFromDiameter(waferDiameter)/math.sqrt(2*dieArea)
+
+wafer = Wafer(
+    diameter = 30,
+    cost = 400,
+    dieArea = 2.07*1.05,
+    defectRatio = 0.020)
+
+print(f"(a) Yield = {wafer.goodDieYield:.3}\n")
+
+Wafer.dieCountStrategy = simpleDieCountStrategy
+waferResults = wafer.generateWaferResults()
+print(("Simple Approximation: \n"
+       f"  (b) Dies per Wafer = {round(waferResults.dieCount)}\n"
+       f"  (c) Cost per Die = {waferResults.costPerDie:.3}\n"))
+
+Wafer.dieCountStrategy = accurateDieCountStrategy
+waferResults = wafer.generateWaferResults()
+print(("More Precise Approximation: \n"
+       f"  (b) Dies per Wafer = {round(waferResults.dieCount)}\n"
+       f"  (c) Cost per Die = {waferResults.costPerDie:.3}"))
+#+END_SRC
+
+#+RESULTS:
+: (a) Yield = 0.958
+: 
+: Simple Approximation: 
+:   (b) Dies per Wafer = 325
+:   (c) Cost per Die = 1.28
+: 
+: More Precise Approximation: 
+:   (b) Dies per Wafer = 280
+:   (c) Cost per Die = 1.49
