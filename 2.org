@@ -292,7 +292,8 @@ def simpleDieCountStrategy(waferDiameter: float, dieArea: float) -> float:
     return Circle.areaFromDiameter(waferDiameter)/dieArea
 
 def accurateDieCountStrategy(waferDiameter: float, dieArea: float) -> float:
-    return simpleDieCountStrategy(waferDiameter, dieArea) - Circle.circumferenceFromDiameter(waferDiameter)/math.sqrt(2*dieArea)
+    totalAreaDieCount = simpleDieCountStrategy(waferDiameter, dieArea)
+    return totalAreaDieCount - Circle.circumferenceFromDiameter(waferDiameter)/math.sqrt(2*dieArea)
 
 wafer = Wafer(
     diameter = 30,
