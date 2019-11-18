@@ -3,7 +3,8 @@ OBJS = 02_recursiveSum.o mysum.o
 
 CC=aarch64-elf-gcc
 LD=aarch64-elf-gcc
-CFLAGS=-march=armv8-a -g -O0
+AS=aarch64-elf-gcc
+CFLAGS=-march=armv8-a -O0
 
 # Select build rules based on Windows or Unix
 ifdef WINDIR
@@ -34,6 +35,8 @@ clean:
 	$(call RM,$(IMAGE))
 	$(call RM,linkmap.txt)
 
+%.o: %.S
+	$(AS) -g -c $< -o $@ 
 
 $(IMAGE): $(OBJS)
 # Link with specific base address to suit VE model memory layout

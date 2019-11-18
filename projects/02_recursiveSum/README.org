@@ -16,7 +16,7 @@
 #+END_EXPORT
 
 * Design
-** Fibonacci Sequence Basics
+** Recursive Sum Basics
    For any given element, \(f_n\), is the sum of natural numbers,
    \[f_{n} = 1 + 2 + 3 + ... + n.\]
    So, 
@@ -26,17 +26,15 @@
    We will be using the A64 Linaro cross compiler toolchain. Our
    project source code will be maintained with a simple GNU
    makefile. The DS-5 (Eclipse) IDE is used for debugging
-   purposes. *Note that the code will not compile unless the makefile
+   purposes. *Note that the code may not compile unless the makefile
    we provide is used.*
 
-   Since the Makefile is not vital to understanding this exercise, it
-   will not be explained in this report, but is included in the
-   appendix (section [[#sec:appendix_code_makefile]]).
+   The makefile can be seen in section [[#sec:appendix_code_makefile]].
 
 ** Interface Between C and Assembly
    Our recursive sum function, =mysum=, is written in assembly, and
    called in C. It has a single input parameter =n=, which is the
-   number we want to sum up to. the assembly function then return the
+   number we want to sum up to. The assembly function then returns the
    sum.
 
 * Flow Chart
@@ -56,7 +54,7 @@
   Major: EE & CE
   Email Address: colluml@clarkson.edu
   Date of the report: November 19, 2019
-*/
+,*/
 
 #define n x0
 #define return x0
@@ -69,9 +67,9 @@ mysum:
 	b.eq baseCase
 
 	// push n and lr to stack
-	sub sp, sp, #(16*2)
+	sub sp, sp, #(8*2)
 	str n, [sp, #0]
-	str x30, [sp, #16]
+	str x30, [sp, #8]
 
 	// recursive function call
 	sub n, n, 1
@@ -79,9 +77,9 @@ mysum:
 	mov recursiveResult, return
 
 	// pop n and lr from stack
-	ldr x30, [sp, #16]
+	ldr x30, [sp, #8]
 	ldr n, [sp, #0]
-	add sp, sp, #(16*2)
+	add sp, sp, #(8*2)
 
 	// return n + mysum(n-1)
 	add return, n, recursiveResult
@@ -135,10 +133,13 @@ int main() {
 * Result
   [[./cases.png]]
 
+* Screenshot of the Stack
+  #+caption: Input (n) starts at =10=, or in hex, =A=. This can be seen in the first push to the stack at the bottom of the figure.
+  [[./figure/stack_withAnnotations.png]]
 * Self-Evaluation
   The difficult part was getting the DS-5 environment set up without
-  linker errors and debugger errors.
-
+  linker errors and debugger errors. Also, we learned that passing the
+  =-g= flag when assembling allows debugging assembly files.
 * Appendix: Code
 ** Makefile
    :PROPERTIES:
@@ -152,7 +153,8 @@ OBJS = 02_recursiveSum.o mysum.o
 
 CC=aarch64-elf-gcc
 LD=aarch64-elf-gcc
-CFLAGS=-march=armv8-a -g -O0
+AS=aarch64-elf-gcc
+CFLAGS=-march=armv8-a -O0
 
 # Select build rules based on Windows or Unix
 ifdef WINDIR
@@ -183,9 +185,10 @@ clean:
 	$(call RM,$(IMAGE))
 	$(call RM,linkmap.txt)
 
+%.o: %.S
+	$(AS) -g -c $< -o $@ 
 
 $(IMAGE): $(OBJS)
 # Link with specific base address to suit VE model memory layout
 	$(CC) $(OBJS) $(CFLAGS) --specs=aem-ve.specs -Wl,--build-id=none,-Map=linkmap.txt -o $@
-
    #+END_SRC
