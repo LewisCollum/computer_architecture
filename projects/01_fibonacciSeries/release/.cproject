@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.toolchain.base.var.gcc-9.2.0-aarch64-linux-gnuw.30371678">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.toolchain.base.var.gcc-9.2.0-aarch64-linux-gnuw.30371678" moduleId="org.eclipse.cdt.core.settings" name="Default">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.toolchain.base.var.gcc-9.2.0-aarch64-linux-gnuw.30371678" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.toolchain.base.var.gcc-9.2.0-aarch64-linux-gnuw.30371678.1674475867" name="/" resourcePath="">
+						<toolChain id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.toolchain.base.var.gcc-9.2.0-aarch64-linux-gnuw.1309634302" name="GCC 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.toolchain.base.var.gcc-9.2.0-aarch64-linux-gnuw">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.target.platform.base.1507360386" name="%target" osList="linux" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.target.platform.base"/>
+							<builder id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.target.builder.461652425" managedBuildOn="false" name="Gnu Make Builder.Default" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.target.builder"/>
+							<tool id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.cpp.compiler.base.var.gcc-9.2.0-aarch64-linux-gnuw.631097427" name="GCC C++ Compiler 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.cpp.compiler.base.var.gcc-9.2.0-aarch64-linux-gnuw"/>
+							<tool id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.c.compiler.base.var.gcc-9.2.0-aarch64-linux-gnuw.284718629" name="GCC C Compiler 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.c.compiler.base.var.gcc-9.2.0-aarch64-linux-gnuw"/>
+							<tool id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.assembler.base.var.gcc-9.2.0-aarch64-linux-gnuw.1037906941" name="GCC Assembler 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.assembler.base.var.gcc-9.2.0-aarch64-linux-gnuw"/>
+							<tool id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.c.linker.base.var.gcc-9.2.0-aarch64-linux-gnuw.156910356" name="GCC C Linker 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.c.linker.base.var.gcc-9.2.0-aarch64-linux-gnuw"/>
+							<tool id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.cpp.linker.base.var.gcc-9.2.0-aarch64-linux-gnuw.263481016" name="GCC C++ Linker 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.cpp.linker.base.var.gcc-9.2.0-aarch64-linux-gnuw"/>
+							<tool id="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.archiver.base.var.gcc-9.2.0-aarch64-linux-gnuw.107949490" name="GCC Archiver 9.2.0 [aarch64-linux-gnuw]" superClass="com.arm.eclipse.cdt.managedbuild.ds5.gcc.tool.archiver.base.var.gcc-9.2.0-aarch64-linux-gnuw"/>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="test.null.1914470346" name="test"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+</cproject>

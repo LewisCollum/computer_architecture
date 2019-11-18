@@ -1,7 +1,7 @@
     .text
     .globl _start
 _start:
-	;; configure stack
+//	configure stack
 	adrp x0, stacktop
 	mov sp, x0
 

@@ -1,0 +1,42 @@
+\ProvidesPackage{project}[Package for Projects]
+
+\usepackage[default]{roboto}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{xcolor}
+
+\usepackage[
+  letterpaper,
+  hmargin=1in,
+  top=0.4in,
+  bottom=\dimexpr0.33in+1.2\baselineskip\relax,
+  includefoot]{geometry}
+
+\renewcommand{\maketitle} {
+  EE 466 Computer Architecture
+  
+  Fall 2019
+  
+  Instructor: Dr. Chen Liu
+
+  \@title
+
+  Name: \@author
+
+  Student ID: 0621539
+
+  Major: EE \& CE
+
+  Email Address: colluml@clarkson.edu
+
+  Date of the report: \@date
+  \newpage
+}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}{}
+\titlespacing{\section}{0pt}{5pt}{0pt}
+
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}{}
+\titlespacing{\subsection}{0pt}{10pt}{0pt}
+
+\definecolor{code}{rgb}{0.95,0.95,0.95}
