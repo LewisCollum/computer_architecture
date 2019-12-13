@@ -1,0 +1,12 @@
+#+latex_header: \usepackage{../homework}
+EE466 Fall 2019 Homework #4
+
+Name: Lewis Collum
+
+Student ID: 0621539
+
+Major: EE/CE
+
+Date of Submission: 12/13/2019
+
+[[./4.a.png]]
