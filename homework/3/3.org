@@ -1,0 +1,9 @@
+#+latex_class_options: [fleqn]
+#+latex_header: \usepackage{../homework}
+
+#+title: EE466 Fall 2019 HW \jobname
+#+author: Lewis Collum
+#+date: Updated: \today
+
+* (1)
+
